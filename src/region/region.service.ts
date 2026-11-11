@@ -1,18 +1,32 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Region } from './entities/region.entity.js';
+import { CreateRegionDto } from './dto/create-region.dto.js';
 @Injectable()
 export class RegionService {
  constructor(
   @InjectRepository(Region) private repo:Repository<Region>
 ) {}
 
- create(data:Partial<Region>) { 
-  const item=this.repo.create(data); 
-  return this.repo.save(item); 
-}
+async create(createRegionDto: CreateRegionDto) {
 
+  const existe = await this.repo.findOne({
+    where: {
+      nombre: createRegionDto.nombre,
+    },
+  });
+
+  if (existe) {
+    throw new BadRequestException(
+      'Ya existe una región con ese nombre'
+    );
+  }
+
+  const item = this.repo.create(createRegionDto);
+
+  return this.repo.save(item);
+}
  findAll() { 
   return this.repo.find(); 
 }
@@ -22,9 +36,31 @@ export class RegionService {
   return item; 
 }
 
- async update(id:number,data:Partial<Region>) { 
-  const item=await this.findOne(id); Object.assign(item,data); 
-  return this.repo.save(item); 
+async update(
+  id: number,
+  data: Partial<Region>,
+) {
+
+  const item = await this.findOne(id);
+
+  if (data.nombre) {
+
+    const existe = await this.repo.findOne({
+      where: {
+        nombre: data.nombre,
+      },
+    });
+
+    if (existe && existe.id !== id) {
+      throw new BadRequestException(
+        'Ya existe una región con ese nombre',
+      );
+    }
+  }
+
+  Object.assign(item, data);
+
+  return this.repo.save(item);
 }
 
  async remove(id:number) { 

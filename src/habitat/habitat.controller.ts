@@ -4,10 +4,10 @@ import { CreateHabitatDto } from './dto/create-habitat.dto.js';
 @Controller('habitats')
 export class HabitatController {
  constructor(private service:HabitatService) {}
- @Post() 
- create(@Body() dto:CreateHabitatDto) {
-   return this.service.create(dto as any); 
-  }
+ @Post()
+create(@Body() createHabitatDto: CreateHabitatDto) {
+  return this.service.create(createHabitatDto);
+}
   
  @Get() 
  findAll() { 

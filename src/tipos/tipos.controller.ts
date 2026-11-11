@@ -1,12 +1,13 @@
 import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post } from '@nestjs/common';
 import { TipoService } from './tipos.service.js';
 import { CreateTipoDto } from './dto/create-tipo.dto.js';
+import { UpdateTipoDto } from './dto/update-tipo.dto.js';
 @Controller('tipos')
 export class TipoController {
  constructor(private service:TipoService) {}
- @Post() 
- create(@Body() dto:CreateTipoDto) { 
-  return this.service.create(dto as any); 
+@Post()
+create(@Body() createTipoDto: CreateTipoDto) {
+  return this.service.create(createTipoDto);
 }
  
   @Get() 
@@ -19,9 +20,12 @@ export class TipoController {
    return this.service.findOne(id); 
   }
 
- @Patch(':id') 
- update(@Param('id',ParseIntPipe) id:number,@Body() dto:Partial<CreateTipoDto>) { 
-  return this.service.update(id,dto as any); 
+ @Patch(':id')
+update(
+  @Param('id', ParseIntPipe) id: number,
+  @Body() updateTipoDto: UpdateTipoDto,
+) {
+  return this.service.update(id, updateTipoDto);
 }
 
  @Delete(':id') 

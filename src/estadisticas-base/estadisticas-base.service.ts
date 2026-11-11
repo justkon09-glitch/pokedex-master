@@ -1,18 +1,53 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { EstadisticaBase } from './entities/estadisticas-base.entity.js';
+import { CreateEstadisticaBaseDto } from './dto/create-estadisticas-base.dto.js';
+import { Pokemon } from '../pokemon/entities/pokemon.entity.js';
+
 @Injectable()
 export class EstadisticaBaseService {
  constructor(
-  @InjectRepository(EstadisticaBase) private repo:Repository<EstadisticaBase>
+  @InjectRepository(EstadisticaBase) private repo:Repository<EstadisticaBase>,
+
+  @InjectRepository(Pokemon) private pokemonRepo:Repository<Pokemon>
 ) {}
 
- create(data:Partial<EstadisticaBase>) { 
-  const item=this.repo.create(data); 
-  return this.repo.save(item); 
-  
- }
+
+async create(
+    createEstadisticaBaseDto: CreateEstadisticaBaseDto,
+  ) {
+
+    const pokemon = await this.pokemonRepo.findOne({
+      where: {
+        id: createEstadisticaBaseDto.pokemonId,
+      },
+    });
+
+    if (!pokemon) {
+      throw new NotFoundException(
+        'El Pokémon no existe',
+      );
+    }
+
+    const existe = await this.repo.findOne({
+      where: {
+        pokemonId: createEstadisticaBaseDto.pokemonId,
+      },
+    });
+
+    if (existe) {
+      throw new BadRequestException(
+        'Este Pokémon ya tiene estadísticas base registradas',
+      );
+    }
+
+    const item = this.repo.create(
+      createEstadisticaBaseDto,
+    );
+
+    return this.repo.save(item);
+  }
 
  findAll() { 
   return this.repo.find(); 

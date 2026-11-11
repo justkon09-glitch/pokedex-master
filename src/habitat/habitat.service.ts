@@ -1,16 +1,30 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Habitat } from './entities/habitat.entity.js';
+import { CreateHabitatDto } from './dto/create-habitat.dto.js';
 @Injectable()
 export class HabitatService {
  constructor(
   @InjectRepository(Habitat) private repo:Repository<Habitat>
 ) {}
+async create(createHabitatDto: CreateHabitatDto) {
 
- create(data:Partial<Habitat>) { 
-  const item=this.repo.create(data); 
-  return this.repo.save(item); 
+  const existe = await this.repo.findOne({
+    where: {
+      nombre: createHabitatDto.nombre,
+    },
+  });
+
+  if (existe) {
+    throw new BadRequestException(
+      'Ya existe un hábitat con ese nombre',
+    );
+  }
+
+  const item = this.repo.create(createHabitatDto);
+
+  return this.repo.save(item);
 }
 
  findAll() { 
@@ -23,10 +37,31 @@ export class HabitatService {
   return item; 
 }
 
- async update(id:number,data:Partial<Habitat>) { 
-  const item=await this.findOne(id); 
-  Object.assign(item,data); 
-  return this.repo.save(item); 
+async update(
+  id: number,
+  data: Partial<Habitat>,
+) {
+
+  const item = await this.findOne(id);
+
+  if (data.nombre) {
+
+    const existe = await this.repo.findOne({
+      where: {
+        nombre: data.nombre,
+      },
+    });
+
+    if (existe && existe.id !== id) {
+      throw new BadRequestException(
+        'Ya existe un hábitat con ese nombre',
+      );
+    }
+  }
+
+  Object.assign(item, data);
+
+  return this.repo.save(item);
 }
 
  async remove(id:number) { 

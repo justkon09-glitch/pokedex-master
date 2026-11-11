@@ -4,10 +4,11 @@ import { CreateRegionDto } from './dto/create-region.dto.js';
 @Controller('regiones')
 export class RegionController {
  constructor(private service:RegionService) {}
- @Post() 
- create(@Body() dto:CreateRegionDto) { 
-  return this.service.create(dto as any); 
-}
+
+  @Post()
+  create(@Body() createRegionDto: CreateRegionDto) {
+    return this.service.create(createRegionDto);
+  }
 
  @Get() findAll() { 
   return this.service.findAll(); 

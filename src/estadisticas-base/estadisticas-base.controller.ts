@@ -4,11 +4,16 @@ import { CreateEstadisticaBaseDto } from './dto/create-estadisticas-base.dto.js'
 @Controller('estadisticas-base')
 export class EstadisticaBaseController {
  constructor(private service:EstadisticaBaseService) {}
- 
- @Post() 
- create(@Body() dto:CreateEstadisticaBaseDto) { 
-  return this.service.create(dto as any); 
-}
+
+  @Post()
+  create(
+    @Body()
+    createEstadisticaBaseDto: CreateEstadisticaBaseDto,
+  ) {
+    return this.service.create(
+      createEstadisticaBaseDto,
+    );
+  }
 
  @Get() 
  findAll() { 
@@ -20,13 +25,22 @@ export class EstadisticaBaseController {
   return this.service.findOne(id); 
 }
 
- @Patch(':id') 
- update(@Param('id',ParseIntPipe) id:number,@Body() dto:Partial<CreateEstadisticaBaseDto>) { 
-  return this.service.update(id,dto as any); 
-}
+  @Patch(':id')
+  update(
+    @Param('id', ParseIntPipe)
+    id: number,
 
- @Delete(':id') 
- remove(@Param('id',ParseIntPipe) id:number) { 
-  return this.service.remove(id); 
-}
+    @Body()
+    dto: Partial<CreateEstadisticaBaseDto>,
+  ) {
+    return this.service.update(id, dto);
+  }
+
+  @Delete(':id')
+  remove(
+    @Param('id', ParseIntPipe)
+    id: number,
+  ) {
+    return this.service.remove(id);
+  }
 }

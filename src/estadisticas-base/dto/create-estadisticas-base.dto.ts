@@ -1,25 +1,38 @@
-import { IsString, IsOptional, IsInt, IsNumber, IsBoolean, IsEmail, IsDateString, Min, MinLength } from 'class-validator';
+import { IsString, IsOptional, IsInt, IsNumber, IsBoolean, IsEmail, IsDateString, Min, MinLength,Max } from 'class-validator';
 
 export class CreateEstadisticaBaseDto {
- @IsNumber()
- @Min(0)
- pokemonId: number;
- @IsNumber()
- @Min(0)
- hp: number;
- @IsNumber()
- @Min(0)
- ataque: number;
- @IsNumber()
- @Min(0)
- defensa: number;
- @IsNumber()
- @Min(0)
- ataqueEspecial: number;
- @IsNumber()
- @Min(0)
- defensaEspecial: number;
- @IsNumber()
- @Min(0)
- velocidad: number;
+
+  @IsInt()
+  @Min(1)
+  pokemonId: number;
+
+  @IsInt()
+  @Min(1)
+  @Max(255)
+  hp: number;
+
+  @IsInt()
+  @Min(1)
+  @Max(255)
+  ataque: number;
+
+  @IsInt()
+  @Min(1)
+  @Max(255)
+  defensa: number;
+
+  @IsInt()
+  @Min(1)
+  @Max(255)
+  ataqueEspecial: number;
+
+  @IsInt()
+  @Min(1)
+  @Max(255)
+  defensaEspecial: number;
+
+  @IsInt()
+  @Min(1)
+  @Max(255)
+  velocidad: number;
 }

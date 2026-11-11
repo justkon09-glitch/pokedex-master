@@ -1,11 +1,12 @@
-import { IsString, IsOptional, IsInt, IsNumber, IsBoolean, IsEmail, IsDateString, Min, MinLength } from 'class-validator';
+import { IsString, IsOptional, IsInt, IsNumber, IsBoolean, IsEmail, IsDateString, Min, MinLength, IsIn } from 'class-validator';
 
 export class CreateTipoDanoDto {
- @IsString()
- @MinLength(1)
- nombre: string;
- @IsOptional()
- @IsString()
- @MinLength(1)
- categoria?: string;
+
+  @IsString()
+  @IsIn([
+    'Físico',
+    'Especial',
+    'Estado',
+  ])
+  nombre: string;
 }

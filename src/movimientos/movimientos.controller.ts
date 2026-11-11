@@ -5,10 +5,12 @@ import { CreateMovimientoDto } from './dto/create-movimiento.dto.js';
 export class MovimientoController {
  constructor(private service:MovimientoService) {}
  
- @Post() 
- create(@Body() dto:CreateMovimientoDto) { 
-  return this.service.create(dto as any); 
-}
+  @Post()
+  create(
+    @Body() createMovimientoDto: CreateMovimientoDto,
+  ) {
+    return this.service.create(createMovimientoDto);
+  }
 
  @Get() 
  findAll() { 
@@ -20,10 +22,17 @@ export class MovimientoController {
   return this.service.findOne(id); 
 }
 
- @Patch(':id') 
- update(@Param('id',ParseIntPipe) id:number,@Body() dto:Partial<CreateMovimientoDto>) { 
-  return this.service.update(id,dto as any); 
-}
+  @Patch(':id')
+  update(
+    @Param('id', ParseIntPipe)
+    id: number,
+
+    @Body()
+    dto: Partial<CreateMovimientoDto>,
+  ) {
+    return this.service.update(id, dto);
+  }
+
 
  @Delete(':id') 
  remove(@Param('id',ParseIntPipe) id:number) { 

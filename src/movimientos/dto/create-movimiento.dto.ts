@@ -1,29 +1,40 @@
-import { IsString, IsOptional, IsInt, IsNumber, IsBoolean, IsEmail, IsDateString, Min, MinLength } from 'class-validator';
+import { IsString, IsOptional, IsInt, IsNumber, IsBoolean, IsEmail, IsDateString, Min, MinLength, MaxLength, Max } from 'class-validator';
 
 export class CreateMovimientoDto {
- @IsString()
- @MinLength(1)
- nombre: string;
- @IsOptional()
- @IsString()
- @MinLength(1)
- descripcion?: string;
- @IsOptional()
- @IsNumber()
- @Min(0)
- potencia?: number;
- @IsOptional()
- @IsNumber()
- @Min(0)
- precision?: number;
- @IsOptional()
- @IsNumber()
- @Min(0)
- pp?: number;
- @IsNumber()
- @Min(0)
- tipoId: number;
- @IsNumber()
- @Min(0)
- tipoDanoId: number;
+
+  @IsString()
+  @MinLength(2)
+  @MaxLength(100)
+  nombre: string;
+
+  @IsOptional()
+  @IsString()
+  @MaxLength(500)
+  descripcion?: string;
+
+  @IsOptional()
+  @IsInt()
+  @Min(0)
+  @Max(250)
+  potencia?: number;
+
+  @IsOptional()
+  @IsInt()
+  @Min(0)
+  @Max(100)
+  precision?: number;
+
+  @IsOptional()
+  @IsInt()
+  @Min(1)
+  @Max(50)
+  pp?: number;
+
+  @IsInt()
+  @Min(1)
+  tipoId: number;
+
+  @IsInt()
+  @Min(1)
+  tipoDanoId: number;
 }

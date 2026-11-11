@@ -4,6 +4,7 @@ export class CreateTipoDto {
  @IsString()
  @MinLength(1)
  nombre: string;
+ 
  @IsOptional()
  @IsString()
  @MinLength(1)

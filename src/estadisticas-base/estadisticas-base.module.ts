@@ -3,8 +3,9 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { EstadisticaBase } from './entities/estadisticas-base.entity.js';
 import { EstadisticaBaseService } from './estadisticas-base.service.js';
 import { EstadisticaBaseController } from './estadisticas-base.controller.js';
+import { Pokemon } from '../pokemon/entities/pokemon.entity.js';
 @Module({
-  imports:[TypeOrmModule.forFeature([EstadisticaBase])],
+  imports:[TypeOrmModule.forFeature([EstadisticaBase, Pokemon])],
   controllers:[EstadisticaBaseController],
   providers:[EstadisticaBaseService],
   exports:[EstadisticaBaseService]})

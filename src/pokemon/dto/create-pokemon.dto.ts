@@ -2,7 +2,7 @@ import { IsString, IsOptional, IsInt, IsNumber, IsBoolean, IsEmail, IsDateString
 
 export class CreatePokemonDto {
 
- @IsNumber()
+ @IsInt()
  @Min(0)
  numeroPokedex: number;
 
@@ -15,42 +15,39 @@ export class CreatePokemonDto {
  @MinLength(1)
  descripcion?: string;
 
- @IsOptional()
  @IsNumber()
  @Min(0)
- altura?: number;
+ altura: number;
 
- @IsOptional()
  @IsNumber()
  @Min(0)
- peso?: number;
+ peso: number;
 
- @IsNumber()
+ @IsInt()
  @Min(0)
  tipoPrimarioId: number;
 
  @IsOptional()
- @IsNumber()
+ @IsInt()
  @Min(0)
  tipoSecundarioId?: number;
 
- @IsOptional()
- @IsNumber()
+ @IsInt()
  @Min(0)
- habilidadId?: number;
+ habilidadId: number;
 
  @IsOptional()
- @IsNumber()
+ @IsInt()
  @Min(0)
  regionId?: number;
 
  @IsOptional()
- @IsNumber()
+ @IsInt()
  @Min(0)
  habitatId?: number;
  
  @IsOptional()
- @IsNumber()
+ @IsInt()
  @Min(0)
  grupoHuevoId?: number;
 }
