@@ -3,9 +3,9 @@ import { IsString, IsOptional, IsInt, IsNumber, IsBoolean, IsEmail, IsDateString
 export class CreateRoleDto {
  @IsString()
  @MinLength(1)
- nombre: string;
+ nombre: string
  @IsOptional()
  @IsString()
  @MinLength(1)
- descripcion?: string;
+ descripcion?: string
 }

@@ -6,17 +6,23 @@ import { Region } from '../../region/entities/region.entity.js';
 export class Entrenador {
  @PrimaryGeneratedColumn()
  id:number;
+
  @Column({type:'int', unique:true})
  usuarioId: number;
+
  @Column({type:'varchar', length:100})
  nombre: string;
+
  @Column({type:'int', nullable:true})
- edad: number;
+ edad?: number;
+
  @Column({type:'int', nullable:true})
- regionId: number;
+ regionId?: number;
+
  @OneToOne(()=>Usuario)
  @JoinColumn({name:'usuarioId'})
  usuario: Usuario;
+
  @ManyToOne(()=>Region,{nullable:true})
  @JoinColumn({name:'regionId'})
  region: Region;
